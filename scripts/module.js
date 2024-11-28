@@ -74,7 +74,7 @@ async function processCharacterItems(character, total, diff, situation) {
   const relevantItems = character.items.contents.filter(it => checkSpecialCases(it) || isItemRelevant(it, total, diff, situation));
 
   for (const item of relevantItems) {
-    if (checkSpecialCases(it)) {
+    if (checkSpecialCases(item)) {
       //specialCases.push(() => handleSpecialCase(item, total, diff, situation));
       specialCases.push(item)
       await handleSpecialCase(item, total, diff, situation)
