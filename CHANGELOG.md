@@ -1,6 +1,6 @@
 ## 2.3.2 - Update Frequency Again
 
-- Fixed error with improper variable access causing frequency to not update on time passing (🐛 @Maple)
+- Fixed error causing frequency to not update on time passing (🐛 @Maple)
 
 ## 2.3.1 - Polish Lion
 
