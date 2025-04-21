@@ -1,4 +1,12 @@
-import { DAY, HOUR, MINUTE, MODULE_ID, MONTH, WEEK, YEAR } from "./helper/const.js";
+import {
+  DAY,
+  HOUR,
+  MINUTE,
+  MODULE_ID,
+  MONTH,
+  WEEK,
+  YEAR,
+} from "./helper/const.js";
 import { combatRound, updateItem, updateWorldTime } from "./hooks.js";
 
 export const cooldownCache = new Map();
@@ -23,19 +31,29 @@ Hooks.once("ready", function () {
  * @param {string} [situation="default"] - The situation context.
  * @returns {Promise<void>}
  */
-export async function updateFrequencyOfActors(party, total, diff, situation = "default") {
+export async function updateFrequencyOfActors(
+  party,
+  total,
+  diff,
+  situation = "default"
+) {
   const updates = [];
   const specialCaseUpdates = [];
 
   for (const character of party) {
-    const { itemUpdates } = await processCharacterItems(character, total, diff, situation);
-    updates.push(...itemUpdates);
+    const { itemUpdates } = await processCharacterItems(
+      character,
+      total,
+      diff,
+      situation
+    );
+    if (itemUpdates.length > 0) {
+      updates.push(character.updateEmbeddedDocuments("Item", itemUpdates));
+    }
     //specialCaseUpdates.push(...specialCases);
   }
 
-  if (updates.length > 0) {
-    await Item.updateDocuments(updates);
-  }
+  //await Promise.all(updates);
 
   // Handle special cases asynchronously
   //specialCaseUpdates.forEach(update => update());
@@ -49,10 +67,17 @@ export async function updateFrequencyOfActors(party, total, diff, situation = "d
  * @param {string} [situation="default"] - The situation context.
  * @returns {Promise<void>}
  */
-export async function updateFrequency(character, total, diff, situation = "default") {
+export async function updateFrequency(
+  character,
+  total,
+  diff,
+  situation = "default"
+) {
   const items = character.items.contents;
-  const relevantItems = items.filter((it) =>
-    ['action', 'equipment'].includes(it.type) && isItemRelevant(it, total, diff, situation)
+  const relevantItems = items.filter(
+    (it) =>
+      ["action", "equipment"].includes(it.type) &&
+      isItemRelevant(it, total, diff, situation)
   );
   relevantItems.forEach((it) => {
     it.unsetFlag(MODULE_ID, "cooldown");
@@ -71,22 +96,21 @@ export async function updateFrequency(character, total, diff, situation = "defau
 async function processCharacterItems(character, total, diff, situation) {
   const itemUpdates = [];
   const specialCases = [];
-  const relevantItems = character.items.contents.filter(it => checkSpecialCases(it) || isItemRelevant(it, total, diff, situation));
+  const relevantItems = character.items.contents.filter(
+    (it) => checkSpecialCases(it) || isItemRelevant(it, total, diff, situation)
+  );
 
   for (const item of relevantItems) {
     if (checkSpecialCases(item)) {
       //specialCases.push(() => handleSpecialCase(item, total, diff, situation));
-      specialCases.push(item)
-      await handleSpecialCase(item, total, diff, situation)
+      specialCases.push(item);
+      await handleSpecialCase(item, total, diff, situation);
     } else {
-
       item.unsetFlag(MODULE_ID, "cooldown");
       itemUpdates.push({
         _id: item.id,
-        "system.frequency.value": item.system.frequency?.max ?? 1
+        "system.frequency.value": item.system.frequency?.max ?? 1,
       });
-
-
     }
   }
 
@@ -107,7 +131,7 @@ function isItemRelevant(item, total, diff, situation) {
     cooldownCache.set(item.uuid, cooldown);
   }
 
-  const cooldown = cooldownCache.get(item.uuid);
+  const cooldown = cooldownCache.get(item.uuid)?.cooldown;
   if (!cooldown) return false;
 
   const frequency = item.system.frequency;
@@ -132,13 +156,13 @@ export function getCoolDownTime(frequency) {
   const currentTime = game.time.worldTime;
   switch (frequency.per) {
     case "turn":
-      return "turn";//Note this is handled by the system (in combat)
+      return "turn"; //Note this is handled by the system (in combat)
     case "round":
-      return "round";//Note this is handled by the system (in combat)
+      return "round"; //Note this is handled by the system (in combat)
     case "PT1M": // per 1 Minute
       return currentTime + MINUTE;
     case "PT10M": // per 10 Minutes
-      return currentTime + (10 * MINUTE);
+      return currentTime + 10 * MINUTE;
     case "PT1H": // per 1 hour
       return currentTime + HOUR;
     case "PT24H": // per 24 hours
@@ -175,8 +199,11 @@ export async function handleSpecialCase(item, _total, diff, _situation) {
   const actor = item.actor;
   switch (slug) {
     case "aeon-stone-pearly-white-spindle":
-      const mode = game.settings.get(MODULE_ID, "automate-item.aeon-pearly-white");
-      if (mode !== 'disabled') {
+      const mode = game.settings.get(
+        MODULE_ID,
+        "automate-item.aeon-pearly-white"
+      );
+      if (mode !== "disabled") {
         if (item.system.usage.value !== "worn") {
           break;
         }
@@ -185,7 +212,7 @@ export async function handleSpecialCase(item, _total, diff, _situation) {
           actor.system.attributes.hp.max - actor.system.attributes.hp.value
         );
         if (health > 0) {
-          if (mode === 'roll') {
+          if (mode === "roll") {
             const DamageRoll = CONFIG.Dice.rolls.find(
               (r) => r.name === "DamageRoll"
             );
@@ -193,9 +220,14 @@ export async function handleSpecialCase(item, _total, diff, _situation) {
               flavor: item.name,
               speaker: ChatMessage.getSpeaker({ actor }),
             });
-          } else if (mode === 'auto') {
-            await actor.update({ "system.attributes.hp.value": health + actor.system.attributes.hp.value })
-            await ChatMessage.create({ content: `@UUID[Compendium.pf2e.equipment-srd.Item.4A8SFipG78SMWQEU] healed <b>${actor.name}</b> for ${health}` });
+          } else if (mode === "auto") {
+            await actor.update({
+              "system.attributes.hp.value":
+                health + actor.system.attributes.hp.value,
+            });
+            await ChatMessage.create({
+              content: `@UUID[Compendium.pf2e.equipment-srd.Item.4A8SFipG78SMWQEU] healed <b>${actor.name}</b> for ${health}`,
+            });
           }
         }
       }
@@ -207,5 +239,5 @@ export async function handleSpecialCase(item, _total, diff, _situation) {
 }
 
 export function checkSpecialCases(item) {
-  return ['aeon-stone-pearly-white-spindle'].includes(item.slug);
+  return ["aeon-stone-pearly-white-spindle"].includes(item.slug);
 }

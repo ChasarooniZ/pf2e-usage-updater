@@ -1,12 +1,19 @@
+## 2.3.2 - Update Frequency Again
+
+- Fixed error with improper varaiable access causing frequency to not update on time passing (🐛 @Maple)
+
 ## 2.3.1 - Polish Lion
+
 - Added Polish Translation (@Lioheart)
 
 ## 2.3.0 - Performance Improvements
+
 - Optimized code for checking for uses (thanks to @Zullock and @A Dirty Ewok for bringing performance concerns to light)
 - Added a caching system for uses during a play session
 - Added a note on the `Include Canvas Tokens` setting that it may impact performance
 
 ## 2.2.3 - Combat Unshackled
+
 - Removed combat round hook as it currently isn't needed
 
 ## 2.2.2 - 11/11 Make a Wish
