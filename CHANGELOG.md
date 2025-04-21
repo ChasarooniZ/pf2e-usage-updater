@@ -1,6 +1,10 @@
-## 2.3.2 - Update Frequency Again
+## 2.3.3 - Update Frequency Again
 
 - Fixed error causing frequency to not update on time passing (🐛 @Maple)
+
+## 2.3.2 - XDY to the rescue
+
+Fixed error with styling (@xdy)
 
 ## 2.3.1 - Polish Lion
 
