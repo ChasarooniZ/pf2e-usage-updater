@@ -1,3 +1,9 @@
+## 3.0.0 - V13
+
+- Update `module.json` to v13
+- Fixed bug with `Per One Month`
+- Refactored some code
+
 ## 2.3.3 - Update Frequency Again
 
 - Fixed error causing frequency to not update on time passing (🐛 @Maple)

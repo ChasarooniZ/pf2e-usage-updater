@@ -171,7 +171,7 @@ export function getCoolDownTime(frequency) {
       return "day"; //Note this is handled by the system
     case "PT1W": // per 1 Week
       return currentTime + WEEK;
-    case "PT1M": // per 1 Month
+    case "P1M": // per 1 Month
       return currentTime + MONTH;
     case "PT1Y": // per 1 Year
       return currentTime + YEAR;
