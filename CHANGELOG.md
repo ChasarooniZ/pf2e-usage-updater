@@ -1,3 +1,7 @@
+## 3.0.1 - Refactored Special Cases
+
+- Refactored where special cases are stored
+
 ## 3.0.0 - V13
 
 - Update `module.json` to v13

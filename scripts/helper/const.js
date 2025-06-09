@@ -33,3 +33,5 @@ export const ICONS = {
     half: "",
   },
 };
+
+export const SPECIAL_CASE_SLUGS = ["aeon-stone-pearly-white-spindle"];
