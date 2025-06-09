@@ -1,5 +1,6 @@
 ## 3.0.1 - Refactored Special Cases
 
+- Fixed `module.json` versioning
 - Refactored where special cases are stored
 
 ## 3.0.0 - V13
