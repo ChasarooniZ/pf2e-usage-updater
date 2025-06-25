@@ -1,3 +1,7 @@
+## 3.0.2 - Fix for Pearl Whites
+
+- Fixed issue where `Pearly White Spindle` automation wasn't working (🐛 @Jordan)
+
 ## 3.0.1 - Refactored Special Cases
 
 - Fixed `module.json` versioning

@@ -14,7 +14,7 @@ export async function handleSpecialCase(item, _total, diff, _situation) {
   const actor = item.actor;
   switch (slug) {
     case "aeon-stone-pearly-white-spindle":
-      handlePearlyWhiteSpindle(actor, item);
+      handlePearlyWhiteSpindle(actor, item, diff);
       break;
     default:
       break;
@@ -22,7 +22,7 @@ export async function handleSpecialCase(item, _total, diff, _situation) {
   return false;
 }
 
-async function handlePearlyWhiteSpindle(actor, item) {
+async function handlePearlyWhiteSpindle(actor, item, diff) {
   const mode = game.settings.get(MODULE_ID, "automate-item.aeon-pearly-white");
   if (mode !== "disabled") {
     if (item.system.usage.value !== "worn") {
