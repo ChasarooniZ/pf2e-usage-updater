@@ -1,4 +1,4 @@
-![](https://img.shields.io/badge/Foundry-v13-informational)
+![](https://img.shields.io/badge/Foundry-v12--13-informational)
 ![All Downloads](https://img.shields.io/github/downloads/ChasarooniZ/pf2e-usage-updater/total?color=5e0000&label=All%20Downloads)
 ![Latest Release Download Count](https://img.shields.io/github/downloads/ChasarooniZ/pf2e-usage-updater/latest/module.zip)
 
