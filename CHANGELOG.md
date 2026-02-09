@@ -1,3 +1,8 @@
+## 3.1.0
+
+- **New**
+  - Enabled `SF2e` support
+
 ## 3.0.2 - Fix for Pearl Whites
 
 - Fixed issue where `Pearly White Spindle` automation wasn't working (🐛 @Jordan)
