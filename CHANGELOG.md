@@ -1,3 +1,8 @@
+## 3.1.1
+
+- **New**
+  - Added Chinese translation (🌐 @AlphaStarguide)
+
 ## 3.1.0
 
 - **New**
