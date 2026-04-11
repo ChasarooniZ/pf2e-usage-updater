@@ -1,3 +1,7 @@
+## 4.0.0
+
+- Updated to support fvtt `v14`
+
 ## 3.1.0
 
 - **New**
