@@ -1,6 +1,11 @@
 ## 4.0.0
 
-- Updated to support fvtt `v14`
+- Updated to support FoundryVTT `v14`
+
+## 3.1.1
+
+- **New**
+  - Added Chinese translation (🌐 @AlphaStarguide)
 
 ## 3.1.0
 
