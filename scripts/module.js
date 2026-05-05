@@ -37,7 +37,7 @@ export async function updateFrequencyOfActors(
   party,
   total,
   diff,
-  situation = "default"
+  situation = "default",
 ) {
   const updates = [];
   const specialCaseUpdates = [];
@@ -47,7 +47,7 @@ export async function updateFrequencyOfActors(
       character,
       total,
       diff,
-      situation
+      situation,
     );
     if (itemUpdates.length > 0) {
       updates.push(character.updateEmbeddedDocuments("Item", itemUpdates));
@@ -73,13 +73,13 @@ export async function updateFrequency(
   character,
   total,
   diff,
-  situation = "default"
+  situation = "default",
 ) {
   const items = character.items.contents;
   const relevantItems = items.filter(
     (it) =>
       ["action", "equipment"].includes(it.type) &&
-      isItemRelevant(it, total, diff, situation)
+      isItemRelevant(it, total, diff, situation),
   );
   relevantItems.forEach((it) => {
     it.unsetFlag(MODULE_ID, "cooldown");
@@ -90,7 +90,7 @@ export async function updateFrequency(
       relevantItems.map((it) => ({
         _id: it.id,
         system: { frequency: { value: it?.system?.frequency?.max ?? 1 } },
-      }))
+      })),
     );
   }
 }
@@ -99,7 +99,7 @@ async function processCharacterItems(character, total, diff, situation) {
   const itemUpdates = [];
   const specialCases = [];
   const relevantItems = character.items.contents.filter(
-    (it) => checkSpecialCases(it) || isItemRelevant(it, total, diff, situation)
+    (it) => checkSpecialCases(it) || isItemRelevant(it, total, diff, situation),
   );
 
   for (const item of relevantItems) {
@@ -151,10 +151,14 @@ function isItemRelevant(item, total, diff, situation) {
 /**
  * Calculates the cooldown time for a given frequency.
  * @param {Object} frequency - The frequency object.
+ * @param {String} slug - slug to check special cases
  * @returns {string|number} The cooldown time or a string representing a special case.
  */
-export function getCoolDownTime(frequency) {
+export function getCoolDownTime(frequency, slug) {
   const currentTime = game.time.worldTime;
+  const specialCaseResult = cooldownSpecialCases(slug);
+  if (specialCaseResult !== null) return specialCaseResult;
+
   switch (frequency.per) {
     case "turn":
       return "turn"; //Note this is handled by the system (in combat)
@@ -177,6 +181,18 @@ export function getCoolDownTime(frequency) {
     case "PT1Y": // per 1 Year
       return currentTime + YEAR;
   }
+}
+
+function cooldownSpecialCases(slug) {
+  if (slug === "activation-lava-bomb") {
+    //2d4 hrs
+    return (
+      currentTime +
+      HOUR * (Math.ceil(Math.random() * 4) + Math.ceil(Math.random() * 4))
+    );
+  }
+
+  return null;
 }
 
 /**

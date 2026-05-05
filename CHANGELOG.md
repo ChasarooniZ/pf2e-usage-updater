@@ -1,3 +1,7 @@
+## 4.0.1
+
+- Add specific handling for `Eternal Eruption` activation cooldowns (must have slug `activation-lava-bomb`)
+
 ## 4.0.0
 
 - Updated to support FoundryVTT `v14`
