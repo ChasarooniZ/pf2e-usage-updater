@@ -1,3 +1,7 @@
+## 4.0.2
+
+- Fixed bug with adding activation time
+
 ## 4.0.1
 
 - Add specific handling for `Eternal Eruption` activation cooldowns (must have slug `activation-lava-bomb`)

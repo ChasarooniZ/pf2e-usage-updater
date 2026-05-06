@@ -184,6 +184,7 @@ export function getCoolDownTime(frequency, slug) {
 }
 
 function cooldownSpecialCases(slug) {
+  const currentTime = game.time.worldTime;
   if (slug === "activation-lava-bomb") {
     //2d4 hrs
     return (
