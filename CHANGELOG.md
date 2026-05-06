@@ -1,6 +1,6 @@
 ## 4.0.1
 
-- Add specific handling for `Eternal Eruption` activation cooldowns (must have slug `activation-lava-bomb`) (@dcpc007)
+- Add specific handling for `Eternal Eruption` activation cooldowns (must have slug `activation-lava-bomb`) (💡 @dcpc007)
 
 ## 4.0.0
 
